@@ -5,6 +5,7 @@ Az 1. feladat célja egy API tesztelési stratégia kidolgozása és megvalósí
 A 2. feladat célja az előző házi feladatban megadott követelményeknek megfelelően implementált alkalmazás tesztelése.
 
 A mellékelt dokumentumok a következők:
+
 Ecxel: Tesztelési stratégia + a hozzá kapcsolódó tesztesetek címszavakban, service-enként csoportosítva, a futtatási eredményekkel. Load és security teszt eredményeket nem tartalmaz.
 Postman Environment beállítások és Collection
 Newman report

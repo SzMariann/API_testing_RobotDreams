@@ -1,4 +1,4 @@
-# API_teszteles_RobotDreams
+# API_testing_RobotDreams
 A RobotDreams kurzusának feladata és megoldása
 
 Az 1. feladat célja egy API tesztelési stratégia kidolgozása és megvalósítása egy webshop backend alkalmazásra. A webshop backend funkciói közé tartozik a termékek kezelése, a felhasználói fiókok kezelése, a rendeléskezelés és a kosár funkció. A tesztelési stratégia célja a backend API-ok megbízhatóságának, teljesítményének és alapszintű biztonságának biztosítása.

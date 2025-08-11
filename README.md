@@ -2,17 +2,23 @@
 A RobotDreams kurzusának feladata és megoldása
 
 Az 1. feladat célja egy API tesztelési stratégia kidolgozása és megvalósítása egy webshop backend alkalmazásra. A webshop backend funkciói közé tartozik a termékek kezelése, a felhasználói fiókok kezelése, a rendeléskezelés és a kosár funkció. A tesztelési stratégia célja a backend API-ok megbízhatóságának, teljesítményének és alapszintű biztonságának biztosítása.
+
 A 2. feladat célja az előző házi feladatban megadott követelményeknek megfelelően implementált alkalmazás tesztelése.
 
 A mellékelt dokumentumok a következők:
 
-Ecxel: Tesztelési stratégia + a hozzá kapcsolódó tesztesetek címszavakban, service-enként csoportosítva, a futtatási eredményekkel. Load és security teszt eredményeket nem tartalmaz.
-Postman Environment beállítások és Collection
-Newman report
+- Excel: Tesztelési stratégia + a hozzá kapcsolódó tesztesetek címszavakban, service-enként csoportosítva, a futtatási eredményekkel. Load és security teszt eredményeket nem tartalmaz.
+
+- Postman Environment beállítások és Collection
+
+- Newman report
 
 Észrevételek és talált hibák:
+
 Mivel nincs mögötte DB, valószínűleg nem megoldott, hogy változnia kéne a cart-ban a darabszámoknak POST /cart/add és GET /cart meghívásakor.
+
 Ha path paramban wrong format ID van megadva, akkor vajon 404-et vagy 405-öt kell-e visszaadnia? így 404-el kiegyeztem (ezt élesben fejlesztőtől megkérdezném).
+
 Nekem a legsúlyosabb problémák a következőek:
 1. Sikerült két usert generálni ugyanazokkal az adatokkal (user3 2x)
 2. Update usernél engedi az üres emailt, üres passwordöt, üres bodyt.

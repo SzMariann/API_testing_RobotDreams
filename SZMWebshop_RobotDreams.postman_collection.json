@@ -1,0 +1,6826 @@
+{
+	"info": {
+		"_postman_id": "15293588-f76d-41ac-89ba-66d1ad73f90c",
+		"name": "Webshop_RobotDreams",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22387816",
+		"_collection_link": "https://robotdreams.postman.co/workspace/RobotDreams~81e9eb5e-c942-4fe6-b78a-a01027da4eaa/collection/22387816-15293588-f76d-41ac-89ba-66d1ad73f90c?action=share&source=collection_link&creator=22387816"
+	},
+	"item": [
+		{
+			"name": "ProductService",
+			"item": [
+				{
+					"name": "getProducts",
+					"item": [
+						{
+							"name": "(+) getProducts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Ellenőrizzük a státuszkódot\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// Ellenőrizzük, hogy a válasz tömb\r",
+											"pm.test(\"Response is an array\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// Ha van legalább egy elem, ellenőrizzük annak szerkezetét\r",
+											"pm.test(\"Each product has expected fields\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const product = res[0];\r",
+											"        pm.expect(product).to.have.property(\"id\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"title\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"stock\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"category\").that.is.a(\"string\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Ellenőrzés, hogy nem jön vissza nem kívánt mező (pl. 'costPrice' vagy 'supplierInfo')\r",
+											"pm.test(\"No sensitive fields in response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const keys = Object.keys(res[0]);\r",
+											"        pm.expect(keys).to.not.include(\"costPrice\");\r",
+											"        pm.expect(keys).to.not.include(\"supplierInfo\");\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) getProductsWithValidPagination",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Ellenőrizzük a státuszkódot\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// Ellenőrizzük, hogy a válasz tömb\r",
+											"pm.test(\"Response is an array\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// Ha van legalább egy elem, ellenőrizzük annak szerkezetét\r",
+											"pm.test(\"Each product has expected fields\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const product = res[0];\r",
+											"        pm.expect(product).to.have.property(\"id\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"title\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"stock\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"category\").that.is.a(\"string\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Ellenőrzés, hogy nem jön vissza nem kívánt mező (pl. 'costPrice' vagy 'supplierInfo')\r",
+											"pm.test(\"No sensitive fields in response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const keys = Object.keys(res[0]);\r",
+											"        pm.expect(keys).to.not.include(\"costPrice\");\r",
+											"        pm.expect(keys).to.not.include(\"supplierInfo\");\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?page=1&limit=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getProductsWithInvalidPagination",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal([400]);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?page=-1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "-1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) getProductsWithValidCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Ellenőrizzük a státuszkódot\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// Ellenőrizzük, hogy a válasz tömb\r",
+											"pm.test(\"Response is an array\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// Minden elem \"Electronics\" kategóriába tartozzon\r",
+											"pm.test(\"All products belong to 'Electronics' category\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    res.forEach(product => {\r",
+											"        pm.expect(product.category.toLowerCase()).to.eql(\"electronics\");\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// Ha van legalább egy elem, ellenőrizzük annak szerkezetét\r",
+											"pm.test(\"Each product has expected fields\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const product = res[0];\r",
+											"        pm.expect(product).to.have.property(\"id\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"title\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"stock\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"category\").that.is.a(\"string\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Ellenőrzés, hogy nem jön vissza nem kívánt mező (pl. 'costPrice' vagy 'supplierInfo')\r",
+											"pm.test(\"No sensitive fields in response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const keys = Object.keys(res[0]);\r",
+											"        pm.expect(keys).to.not.include(\"costPrice\");\r",
+											"        pm.expect(keys).to.not.include(\"supplierInfo\");\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?category=electronics",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "electronics"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getProductsWithInvalidCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Ellenőrizzük a státuszkódot\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?category=ufonautics",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "ufonautics"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) getProductsWithValidOrdering",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Ellenőrizzük a státuszkódot\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// Ellenőrizzük, hogy a válasz tömb\r",
+											"pm.test(\"Response is an array\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// Ár szerint növekvő sorrend ellenőrzése\r",
+											"pm.test(\"Products are sorted by price ascending\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 1) {\r",
+											"        for (let i = 0; i < res.length - 1; i++) {\r",
+											"            pm.expect(res[i].price).to.be.at.most(res[i + 1].price);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Ha van legalább egy elem, ellenőrizzük annak szerkezetét\r",
+											"pm.test(\"Each product has expected fields\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const product = res[0];\r",
+											"        pm.expect(product).to.have.property(\"id\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"title\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");\r",
+											"        pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"stock\").that.is.a(\"number\");\r",
+											"        pm.expect(product).to.have.property(\"category\").that.is.a(\"string\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// Ellenőrzés, hogy nem jön vissza nem kívánt mező (pl. 'costPrice' vagy 'supplierInfo')\r",
+											"pm.test(\"No sensitive fields in response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    if (res.length > 0) {\r",
+											"        const keys = Object.keys(res[0]);\r",
+											"        pm.expect(keys).to.not.include(\"costPrice\");\r",
+											"        pm.expect(keys).to.not.include(\"supplierInfo\");\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?sort=price_asc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "price_asc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "createNewProduct",
+					"item": [
+						{
+							"name": "(+) createNewProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response contains ID\", function () {\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"});\r",
+											"\r",
+											"// Elmentjük az ID-t környezeti változóba (későbbi GET/PUT/DELETE művelethez)\r",
+											"pm.environment.set(\"product_id\", jsonData.id);\r",
+											"\r",
+											"// Típusellenőrzések\r",
+											"pm.test(\"ID is a number\", function () {\r",
+											"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is a string\", function () {\r",
+											"    pm.expect(jsonData.title).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Description is a string\", function () {\r",
+											"    pm.expect(jsonData.description).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Price is a number\", function () {\r",
+											"    pm.expect(jsonData.price).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stock is an integer\", function () {\r",
+											"    pm.expect(jsonData.stock).to.be.a(\"number\");\r",
+											"    pm.expect(jsonData.stock % 1 === 0).to.be.true;  // integer ellenőrzés\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Category is a string\", function () {\r",
+											"    pm.expect(jsonData.category).to.be.a(\"string\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\",\r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": 200,\r\n    \"category\": \"Home\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewProductWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\", //azt még csak manuálisan tudom futtatni, hogy missing data one by one\r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": 200\r\n   // \"category\": \"Home\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewProductWithWrongFormatNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\", \r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": \"kiscica\",//STRING szám helyett //azt még csak manuálisan tudom futtatni, hogy wrong format data one by one\r\n    \"category\": \"Home\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewProductWithWrongFormatString",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\", \r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": 200,\r\n    \"category\": \"                  \"//just SPACE //azt még csak manuálisan tudom futtatni, hogy wrong format data one by one\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewProductWithExtraData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\",\r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": 200,\r\n    \"category\": \"Home\",\r\n    \"colour\": \"black\" //ez az extra\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewProductWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\",\r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": 200,\r\n    \"category\": \"Home\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewProductWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"New Product\",\r\n    \"description\": \"Description of New Product\",\r\n    \"price\": 19.99,\r\n    \"stock\": 200,\r\n    \"category\": \"Home\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "updateProduct",
+					"item": [
+						{
+							"name": "(+) updateProduct",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Kiolvassuk az URL path változóból az `id`-t\r",
+											"const urlId = parseInt(pm.request.url.variables.get(\"id\"));\r",
+											"\r",
+											"// Kiolvassuk a request body-ból az `id`-t\r",
+											"const bodyId = JSON.parse(pm.request.body.raw).id;\r",
+											"\r",
+											"// Összehasonlítjuk\r",
+											"pm.test(\"Request URL ID matches body ID\", function () {\r",
+											"    pm.expect(bodyId).to.eql(urlId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const urlParts = pm.request.url.path;\r",
+											"const urlId = Number(urlParts[urlParts.length - 1]);\r",
+											"\r",
+											"const body = JSON.parse(pm.request.body.raw);\r",
+											"const bodyId = Number(body.id);\r",
+											"\r",
+											"pm.test(\"Request URL ID matches body ID\", function () {\r",
+											"    pm.expect(urlId).to.eql(bodyId);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"// Típusellenőrzések\r",
+											"pm.test(\"ID is a number\", function () {\r",
+											"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is a string\", function () {\r",
+											"    pm.expect(jsonData.title).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Description is a string\", function () {\r",
+											"    pm.expect(jsonData.description).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Price is a number\", function () {\r",
+											"    pm.expect(jsonData.price).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stock is an integer\", function () {\r",
+											"    pm.expect(jsonData.stock).to.be.a(\"number\");\r",
+											"    pm.expect(Number.isInteger(jsonData.stock)).to.be.true;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Category is a string\", function () {\r",
+											"    pm.expect(jsonData.category).to.be.a(\"string\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 6,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "6",
+											"description": "productId összehasonlitashoz a bodyban szereplovel"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) updateProductWithSamePreviousData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Kiolvassuk az URL path változóból az `id`-t\r",
+											"const urlId = parseInt(pm.request.url.variables.get(\"id\"));\r",
+											"\r",
+											"// Kiolvassuk a request body-ból az `id`-t\r",
+											"const bodyId = JSON.parse(pm.request.body.raw).id;\r",
+											"\r",
+											"// Összehasonlítjuk\r",
+											"pm.test(\"Request URL ID matches body ID\", function () {\r",
+											"    pm.expect(bodyId).to.eql(urlId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const urlParts = pm.request.url.path;\r",
+											"const urlId = Number(urlParts[urlParts.length - 1]);\r",
+											"\r",
+											"const body = JSON.parse(pm.request.body.raw);\r",
+											"const bodyId = Number(body.id);\r",
+											"\r",
+											"pm.test(\"Request URL ID matches body ID\", function () {\r",
+											"    pm.expect(urlId).to.eql(bodyId);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"// Típusellenőrzések\r",
+											"pm.test(\"ID is a number\", function () {\r",
+											"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is a string\", function () {\r",
+											"    pm.expect(jsonData.title).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Description is a string\", function () {\r",
+											"    pm.expect(jsonData.description).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Price is a number\", function () {\r",
+											"    pm.expect(jsonData.price).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stock is an integer\", function () {\r",
+											"    pm.expect(jsonData.stock).to.be.a(\"number\");\r",
+											"    pm.expect(Number.isInteger(jsonData.stock)).to.be.true;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Category is a string\", function () {\r",
+											"    pm.expect(jsonData.category).to.be.a(\"string\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "productId összehasonlitashoz a bodyban szereplovel"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) updateProductWithData1by1 - nem lehet komment a bodyban! ami sor nem kell, törölni",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Kiolvassuk az URL path változóból az `id`-t\r",
+											"const urlId = parseInt(pm.request.url.variables.get(\"id\"));\r",
+											"\r",
+											"// Kiolvassuk a request body-ból az `id`-t\r",
+											"const bodyId = JSON.parse(pm.request.body.raw).id;\r",
+											"\r",
+											"// Összehasonlítjuk\r",
+											"pm.test(\"Request URL ID matches body ID\", function () {\r",
+											"    pm.expect(bodyId).to.eql(urlId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"\r",
+											"// Típusellenőrzések\r",
+											"pm.test(\"ID is a number\", function () {\r",
+											"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is a string\", function () {\r",
+											"    pm.expect(jsonData.title).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Description is a string\", function () {\r",
+											"    pm.expect(jsonData.description).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Price is a number\", function () {\r",
+											"    pm.expect(jsonData.price).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Stock is an integer\", function () {\r",
+											"    pm.expect(jsonData.stock).to.be.a(\"number\");\r",
+											"    pm.expect(Number.isInteger(jsonData.stock)).to.be.true;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Category is a string\", function () {\r",
+											"    pm.expect(jsonData.category).to.be.a(\"string\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "productId összehasonlitashoz a bodyban szereplovel"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithNotRelatedIDinPathParamAndBody",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Kiolvassuk az URL path változóból az `id`-t\r",
+											"const urlId = parseInt(pm.request.url.variables.get(\"id\"));\r",
+											"\r",
+											"// Kiolvassuk a request body-ból az `id`-t\r",
+											"const bodyId = JSON.parse(pm.request.body.raw).id;\r",
+											"\r",
+											"// Összehasonlítjuk\r",
+											"pm.test(\"Request URL ID matches body ID\", function () {\r",
+											"    pm.expect(bodyId).to.eql(urlId);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const urlParts = pm.request.url.path;\r",
+											"const urlId = Number(urlParts[urlParts.length - 1]);\r",
+											"\r",
+											"const body = JSON.parse(pm.request.body.raw);\r",
+											"const bodyId = Number(body.id);\r",
+											"\r",
+											"pm.test(\"Request URL ID does NOT match body ID\", function () {\r",
+											"    pm.expect(urlId).to.not.eql(bodyId);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithInvalidID",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/kiscica",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"kiscica"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithMissingIDinURL",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithWrongFormatNumber",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24,99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithWrongFormatString",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product@&##\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithoutAuthentication",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateProductWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"title\": \"Updated Product\",\r\n    \"description\": \"Updated description\",\r\n    \"price\": 24.99,\r\n    \"stock\": 150,\r\n    \"category\": \"Electronics\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "deleteProduct",
+					"item": [
+						{
+							"name": "(+) deleteProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"// 2. Ha sikeres volt a törlés, küldjünk egy GET kérést ugyanarra az ID-ra\r",
+											"pm.test(\"Trigger GET request to verify product deletion\", function () {\r",
+											"    if (pm.response.code === 200 || pm.response.code === 204) {\r",
+											"        const productId = pm.request.url.split('/').pop(); // Az ID kinyerése az URL-ből\r",
+											"        pm.sendRequest({\r",
+											"            url: `${pm.environment.get(\"baseUrl\")}/products/${productId}`,\r",
+											"            method: 'GET',\r",
+											"            headers: {\r",
+											"                'Authorization': `Bearer ${pm.environment.get(\"token\")}`\r",
+											"            }\r",
+											"        }, function (err, res) {\r",
+											"            pm.test(\"Product should not exist\", function () {\r",
+											"                pm.expect(res.code).to.equal(404); // Ellenőrizzük, hogy a GET kérés 404-et adjon\r",
+											"            });\r",
+											"        });\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteAlreadyDeletedProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteInvalidProductID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/kiscica",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"kiscica"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteMissingProductID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteWrongFormatProductID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/&&&@#",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"&&&@"
+									],
+									"hash": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteProductWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteProductWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "UserService",
+			"item": [
+				{
+					"name": "createNewUser",
+					"item": [
+						{
+							"name": "(+) createNewUser",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);\r",
+											"\r",
+											"// Debug üzenetek a konzolra\r",
+											"console.log(\"Counter:\", counter);\r",
+											"console.log(\"Username:\", username);\r",
+											"console.log(\"Email:\", email);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes correct username and email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"username\", pm.environment.get(\"username\"));\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains user ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"    pm.environment.set(\"last_user_id\", jsonData.id); // Elmentjük további használatra\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewUserWithSameData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal([400]);\r",
+											"}); //ide valami üzleti hibaüzenet kellene, pl ALREADY_EXIST\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"user3\",\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"user3@example.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewUserWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal([400]);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  //\"username\": \"{{username}}\", //azt még csak manuálisan tudom futtatni, hogy empty/missing data one by one\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewUserWithWrongFormatData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal([400]);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"us+r  n@me\", //azt még csak manuálisan tudom futtatni, hogy wrong format\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "postLogin",
+					"item": [
+						{
+							"name": "(+) createNewUser Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);\r",
+											"\r",
+											"// Debug üzenetek a konzolra\r",
+											"console.log(\"Counter:\", counter);\r",
+											"console.log(\"Username:\", username);\r",
+											"console.log(\"Email:\", email);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes correct username and email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"username\", pm.environment.get(\"username\"));\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains user ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"    pm.environment.set(\"last_user_id\", jsonData.id); // Elmentjük további használatra\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a token\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\");\r",
+											"    pm.environment.set(\"auth_token\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Token is a non-empty string\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) loginAdmin",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a token\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\");\r",
+											"    pm.environment.set(\"adminToken\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Token is a non-empty string\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{adminUsername}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) loginWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(401);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //\"username\": \"{{username}}\", //azt még csak manuálisan tudom futtatni, hogy empty/missing data one by one\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) loginWithExtraData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(401);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"id\": \"21\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) loginWithWrongFormatData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @@@@             \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) loginWithNotRelatedData",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(401);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"incorrect password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "updateUser",
+					"item": [
+						{
+							"name": "(+) createNewUser Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);\r",
+											"\r",
+											"// Debug üzenetek a konzolra\r",
+											"console.log(\"Counter:\", counter);\r",
+											"console.log(\"Username:\", username);\r",
+											"console.log(\"Email:\", email);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes correct username and email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"username\", pm.environment.get(\"username\"));\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains user ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"    pm.environment.set(\"last_user_id\", jsonData.id); // Elmentjük további használatra\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) login Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a token\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\");\r",
+											"    pm.environment.set(\"auth_token\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Token is a non-empty string\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) updateUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Store updated email from response\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    if (jsonData.email) {\r",
+											"        pm.environment.set(\"updated_email\", jsonData.email);\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes expected updated email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"updated_email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"updateduser@example.com\",\r\n    \"password\": \"newsecurepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) updateUserWithSamePreviousData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Store updated email from response\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    if (jsonData.email) {\r",
+											"        pm.environment.set(\"updated_email\", jsonData.email);\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes expected updated email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"updated_email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"updateduser@example.com\",\r\n    \"password\": \"newsecurepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) updateUserWithJustOneData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Store updated email from response\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    if (jsonData.email) {\r",
+											"        pm.environment.set(\"updated_email\", jsonData.email);\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes expected updated email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"updated_email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //\"email\": \"updateduser@example.com\",\r\n    \"password\": \"newersecurepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateUserInvalidID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"updateduser@example.com\",\r\n    \"password\": \"newsecurepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/kiscica",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"kiscica"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateUserWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    //\"email\": \"user9@example.com\", //azt még csak manuálisan tudom futtatni, hogy empty/missing data one by one\r\n    \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateUserWithWrongFormatString",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user4@example.com\",\r\n    \"password\": \"          \" //just SPACE\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateUserWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(401);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"updateduser@example.com\",\r\n    \"password\": \"newsecurepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) updateUserWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(403);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"updateduser@example.com\",\r\n    \"password\": \"newsecurepassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/{{last_user_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"{{last_user_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "resetPassword",
+					"item": [
+						{
+							"name": "(+) resetPassword",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Ellenőrizzük, hogy a státuszkód 200 vagy 201\r",
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"// Ellenőrizzük, hogy a válaszban szerepel a megfelelő üzenet\r",
+											"pm.test(\"Message confirms password reset email was sent\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.have.property(\"message\");\r",
+											"    pm.expect(res.message).to.match(/reset link sent/i);\r",
+											"});\r",
+											"\r",
+											"// Biztonsági teszt – ne legyen benne jelszó vagy token a válaszban\r",
+											"pm.test(\"Response does not expose sensitive data\", function () {\r",
+											"    const body = pm.response.text();\r",
+											"    pm.expect(body).to.not.include(\"password\");\r",
+											"    pm.expect(body).to.not.include(\"token\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user2@example.com\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) resetPasswordWithInvalidEmail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kiscica@example.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) resetPasswordWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   // \"email\": \"\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) resetPasswordWithWrongFormatEmail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kiscica_example.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) resetPasswordWithExtraData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{updated_email}}\",\r\n    \"id\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/reset-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ShoppingcartService",
+			"item": [
+				{
+					"name": "getCart",
+					"item": [
+						{
+							"name": "(+) getCart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// 2. Valid JSON válasz ellenőrzése\r",
+											"pm.test(\"Response should be a valid JSON\", function () {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+											"    pm.expect(pm.response.json()).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"// 3. 'items' és 'total' mezők ellenőrzése\r",
+											"pm.test(\"Response should contain 'items' array and 'total' field\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson).to.have.property('items').that.is.an('array');\r",
+											"    pm.expect(responseJson).to.have.property('total').that.is.a('number');\r",
+											"});\r",
+											"\r",
+											"// 4. Minden item rendelkezzen 'productId' és 'quantity' mezőkkel\r",
+											"pm.test(\"Each item should have 'productId' and 'quantity' properties\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    responseJson.items.forEach(item => {\r",
+											"        pm.expect(item).to.have.property('productId').that.is.a('number');\r",
+											"        pm.expect(item).to.have.property('quantity').that.is.a('number');\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 5. Total mező helyessége\r",
+											"pm.test(\"Total should be a valid number\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.total).to.be.a('number').that.is.greaterThanOrEqual(0);\r",
+											"});\r",
+											"\r",
+											"// 6. Ha az 'items' üres, akkor a 'total' 0 legyen\r",
+											"pm.test(\"If items is empty, total should be 0\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    if (responseJson.items.length === 0) {\r",
+											"        pm.expect(responseJson.total).to.equal(0);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) getCartWithEmptyCard - adminnak nincs most semmi",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// 2. Valid JSON válasz ellenőrzése\r",
+											"pm.test(\"Response should be a valid JSON\", function () {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+											"    pm.expect(pm.response.json()).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"// 3. 'items' és 'total' mezők ellenőrzése\r",
+											"pm.test(\"Response should contain 'items' array and 'total' field\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson).to.have.property('items').that.is.an('array');\r",
+											"    pm.expect(responseJson).to.have.property('total').that.is.a('number');\r",
+											"});\r",
+											"\r",
+											"// 4. Minden item rendelkezzen 'productId' és 'quantity' mezőkkel\r",
+											"pm.test(\"Each item should have 'productId' and 'quantity' properties\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    responseJson.items.forEach(item => {\r",
+											"        pm.expect(item).to.have.property('productId').that.is.a('number');\r",
+											"        pm.expect(item).to.have.property('quantity').that.is.a('number');\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 5. Total mező helyessége\r",
+											"pm.test(\"Total should be a valid number\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.total).to.be.a('number').that.is.greaterThanOrEqual(0);\r",
+											"});\r",
+											"\r",
+											"// 6. Ha az 'items' üres, akkor a 'total' 0 legyen\r",
+											"pm.test(\"If items is empty, total should be 0\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    if (responseJson.items.length === 0) {\r",
+											"        pm.expect(responseJson.total).to.equal(0);\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getCartWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getCartWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "addProductsToCart",
+					"item": [
+						{
+							"name": "(+) addProductsToCart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// 2. Válasz üzenetének ellenőrzése\r",
+											"pm.test(\"Response should contain 'message' field with correct value\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson).to.have.property('message');\r",
+											"    pm.expect(responseJson.message).to.equal(\"Product added to cart.\");\r",
+											"});\r",
+											"\r",
+											"// 3. Válasz JSON formátumának ellenőrzése\r",
+											"pm.test(\"Response should be a valid JSON\", function () {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+											"    pm.expect(pm.response.json()).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"// 4. A válaszban lévő termékID és mennyiség validálása\r",
+											"pm.test(\"Response should contain correct productId and quantity\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.productId).to.equal(pm.environment.get(\"productId\"));\r",
+											"    pm.expect(responseJson.quantity).to.equal(pm.environment.get(\"quantity\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3//azt még csak manuálisan tudom futtatni, hogy empty/missing data one by one\r\n    //\"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithInvalidProductID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 22,\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithInvalidQuantity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 1000 //több, mint ami elvileg készleten van\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithWrongFormatNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": & //STRING\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithExtraData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2,\r\n    \"colour\": \"black\" //ez az extra\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) addProductsToCartWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "deleteFromCart",
+					"item": [
+						{
+							"name": "(+) deleteItemFromCart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 2. A válaszban a 'message' helyes értékének ellenőrzése\r",
+											"pm.test(\"Response should contain correct message\", function () {\r",
+											"    if(pm.response.status === 200){\r",
+											"        const responseJson = pm.response.json();\r",
+											"        pm.expect(responseJson).to.have.property('message');\r",
+											"        pm.expect(responseJson.message).to.equal(\"Product removed from cart.\");\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// 3. A válasz JSON formátumának ellenőrzése\r",
+											"pm.test(\"Response should be a valid JSON\", function () {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+											"    if(pm.response.status === 200){\r",
+											"        pm.expect(pm.response.json()).to.be.an('object');\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// 4. A termék valóban eltávolításra került\r",
+											"pm.test(\"Product should be removed from cart\", function () {\r",
+											"    if(pm.response.status === 200){\r",
+											"        pm.sendRequest({\r",
+											"            url: \"{{baseUrl}}/cart\",\r",
+											"            method: 'GET',\r",
+											"            header: {\r",
+											"                'Authorization': `Bearer ${pm.environment.get('auth_token')}`\r",
+											"            }\r",
+											"        }, function (err, res) {\r",
+											"            const cart = res.json();\r",
+											"            const productRemoved = !cart.items.some(item => item.productId === pm.environment.get(\"productIdToRemove\"));\r",
+											"            pm.expect(productRemoved).to.be.true;\r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"// 5. Többi termék nem törlődött\r",
+											"pm.test(\"Only one product is removed, others remain in the cart\", function () {\r",
+											"    if(pm.response.status === 200){\r",
+											"        pm.sendRequest({\r",
+											"            url: \"{{baseUrl}}/cart\",\r",
+											"            method: 'GET',\r",
+											"            header: {\r",
+											"                'Authorization': `Bearer ${pm.environment.get('auth_token')}`\r",
+											"            }\r",
+											"        }, function (err, res) {\r",
+											"            const cart = res.json();\r",
+											"            const remainingProducts = cart.items.filter(item => item.productId !== pm.environment.get(\"productIdToRemove\"));\r",
+											"            pm.expect(remainingProducts.length).to.be.greaterThan(0);\r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteAlreadyDeletedItemFromCart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése - ide kellene valamilyen üzleti message, pl, PRODUCT_ALREADY_REMOVED\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteInvalidItemFromCart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése - ide kellene valamilyen üzleti message, pl, PRODUCT_DOESNT_EXIST\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 299999\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteItemFromCartWithWrongFormatNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": kiscica\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteItemFromCartWithEmpty/MissingID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteItemFromCartWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteItemFromCartWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Státuszkód helyességének ellenőrzése\r",
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403); \r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"remove"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "OrderService",
+			"item": [
+				{
+					"name": "createNewOrder",
+					"item": [
+						{
+							"name": "(+) createNewUser Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+											"let counter = pm.environment.get(\"user_counter\");\r",
+											"\r",
+											"if (!counter) {\r",
+											"    counter = 3;\r",
+											"} else {\r",
+											"    counter = parseInt(counter) + 1;\r",
+											"}\r",
+											"\r",
+											"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+											"const username = `user${counter}`;\r",
+											"const email = `${username}@example.com`;\r",
+											"const password = \"securepassword\";\r",
+											"\r",
+											"// Környezeti változók mentése\r",
+											"pm.environment.set(\"user_counter\", counter);\r",
+											"pm.environment.set(\"username\", username);\r",
+											"pm.environment.set(\"email\", email);\r",
+											"pm.environment.set(\"password\", password);\r",
+											"\r",
+											"// Debug üzenetek a konzolra\r",
+											"console.log(\"Counter:\", counter);\r",
+											"console.log(\"Username:\", username);\r",
+											"console.log(\"Email:\", email);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 or 201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response includes correct username and email\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"username\", pm.environment.get(\"username\"));\r",
+											"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"email\"));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains user ID\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"id\");\r",
+											"    pm.environment.set(\"last_user_id\", jsonData.id); // Elmentjük további használatra\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) login Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a token\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\");\r",
+											"    pm.environment.set(\"auth_token\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Token is a non-empty string\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) addProductsToCart Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1. Státuszkód ellenőrzése\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"// 2. Válasz üzenetének ellenőrzése\r",
+											"pm.test(\"Response should contain 'message' field with correct value\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson).to.have.property('message');\r",
+											"    pm.expect(responseJson.message).to.equal(\"Product added to cart.\");\r",
+											"});\r",
+											"\r",
+											"// 3. Válasz JSON formátumának ellenőrzése\r",
+											"pm.test(\"Response should be a valid JSON\", function () {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+											"    pm.expect(pm.response.json()).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"// 4. A válaszban lévő termékID és mennyiség validálása\r",
+											"pm.test(\"Response should contain correct productId and quantity\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.productId).to.equal(pm.environment.get(\"productId\"));\r",
+											"    pm.expect(responseJson.quantity).to.equal(pm.environment.get(\"quantity\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) createNewOrder",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has orderId and status\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"orderId\");\r",
+											"    pm.expect(jsonData).to.have.property(\"status\");\r",
+											"    pm.expect(jsonData.status).to.eql(\"Processing\");\r",
+											"});\r",
+											"\r",
+											"// Mentjük az orderId-t környezeti változóként, későbbi műveletekhez (pl. GET /orders/:id)\r",
+											"pm.environment.set(\"orderId\", pm.response.json().orderId);\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"const currentOrderId = jsonData.orderId;\r",
+											"const previousOrderIdRaw = pm.environment.get(\"previousOrderId\");\r",
+											"\r",
+											"\r",
+											"// Ha van előző orderId, akkor összehasonlítjuk az id-t\r",
+											"if (previousOrderIdRaw !== undefined && previousOrderIdRaw !== null) {\r",
+											"    const previousOrderId = Number(previousOrderIdRaw);\r",
+											"    pm.test(\"Order ID has increased\", function () {\r",
+											"        pm.expect(currentOrderId).to.be.above(previousOrderId);\r",
+											"    });\r",
+											"} else {\r",
+											"    console.log(\"No previousOrderId found – skipping comparison.\");\r",
+											"}\r",
+											"\r",
+											"// Mindig frissítjük a változókat a következő körre\r",
+											"pm.environment.set(\"previousOrderId\", currentOrderId);\r",
+											"pm.environment.set(\"orderId\", currentOrderId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) createNewOrderWithPreviousData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has orderId and status\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"orderId\");\r",
+											"    pm.expect(jsonData).to.have.property(\"status\");\r",
+											"    pm.expect(jsonData.status).to.eql(\"Processing\");\r",
+											"});\r",
+											"\r",
+											"// Mentjük az orderId-t környezeti változóként, későbbi műveletekhez (pl. GET /orders/:id)\r",
+											"pm.environment.set(\"orderId\", pm.response.json().orderId);\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"const currentOrderId = jsonData.orderId;\r",
+											"const previousOrderIdRaw = pm.environment.get(\"previousOrderId\");\r",
+											"\r",
+											"\r",
+											"// Ha van előző orderId, akkor összehasonlítjuk az id-t\r",
+											"if (previousOrderIdRaw !== undefined && previousOrderIdRaw !== null) {\r",
+											"    const previousOrderId = Number(previousOrderIdRaw);\r",
+											"    pm.test(\"Order ID has increased\", function () {\r",
+											"        pm.expect(currentOrderId).to.be.above(previousOrderId);\r",
+											"    });\r",
+											"} else {\r",
+											"    console.log(\"No previousOrderId found – skipping comparison.\");\r",
+											"}\r",
+											"\r",
+											"// Mindig frissítjük a változókat a következő körre\r",
+											"pm.environment.set(\"previousOrderId\", currentOrderId);\r",
+											"pm.environment.set(\"orderId\", currentOrderId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) createNewOrderMultipleProducts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has orderId and status\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"orderId\");\r",
+											"    pm.expect(jsonData).to.have.property(\"status\");\r",
+											"    pm.expect(jsonData.status).to.eql(\"Processing\");\r",
+											"});\r",
+											"\r",
+											"// Mentjük az orderId-t környezeti változóként, későbbi műveletekhez (pl. GET /orders/:id)\r",
+											"pm.environment.set(\"orderId\", pm.response.json().orderId);\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"const currentOrderId = jsonData.orderId;\r",
+											"const previousOrderIdRaw = pm.environment.get(\"previousOrderId\");\r",
+											"\r",
+											"\r",
+											"// Ha van előző orderId, akkor összehasonlítjuk az id-t\r",
+											"if (previousOrderIdRaw !== undefined && previousOrderIdRaw !== null) {\r",
+											"    const previousOrderId = Number(previousOrderIdRaw);\r",
+											"    pm.test(\"Order ID has increased\", function () {\r",
+											"        pm.expect(currentOrderId).to.be.above(previousOrderId);\r",
+											"    });\r",
+											"} else {\r",
+											"    console.log(\"No previousOrderId found – skipping comparison.\");\r",
+											"}\r",
+											"\r",
+											"// Mindig frissítjük a változókat a következő körre\r",
+											"pm.environment.set(\"previousOrderId\", currentOrderId);\r",
+											"pm.environment.set(\"orderId\", currentOrderId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            },\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithEmptyMissingData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            //\"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithInvalidProductID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 999,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithInvalidQuantity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 1,\r\n            \"quantity\": 2000000\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithWrongFormatNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": kiscica,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithExtraData",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2,\r\n            \"colour\": \"black\"\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) createNewOrderWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getOrder",
+					"item": [
+						{
+							"name": "(+) login Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a token\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\");\r",
+											"    pm.environment.set(\"auth_token\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Token is a non-empty string\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) getOrder",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// Valid JSON válasz ellenőrzése\r",
+											"pm.test(\"Response should be a valid JSON\", function () {\r",
+											"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+											"    pm.expect(pm.response.json()).to.be.an('object');\r",
+											"}); \r",
+											"\r",
+											"// Ellenőrizzük, hogy megvannak a kulcsmezők\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.test(\"Response has correct structure\", function () {\r",
+											"    pm.expect(jsonData).to.have.property(\"orderId\");\r",
+											"    pm.expect(jsonData).to.have.property(\"status\");\r",
+											"    pm.expect(jsonData).to.have.property(\"items\");\r",
+											"    pm.expect(jsonData).to.have.property(\"total\");\r",
+											"});\r",
+											"\r",
+											"// Ellenőrizzük, hogy az items tömb nem üres\r",
+											"pm.test(\"Items array is not empty\", function () {\r",
+											"    pm.expect(jsonData.items).to.be.an(\"array\").that.is.not.empty;\r",
+											"});\r",
+											"\r",
+											"// További logikai ellenőrzések (opcionális)\r",
+											"pm.test(\"Total is a positive number\", function () {\r",
+											"    pm.expect(jsonData.total).to.be.a(\"number\").and.to.be.above(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/{{orderId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getOrderWithInvalidIDinPath",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/kiscica",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"kiscica"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getOrderWithDeletedIDinPath",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/{id}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getOrderWithMissingIDinPath",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getOrderWithWrongFormatIDinPath",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/@&#",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"@&"
+									],
+									"hash": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getOrderWithoutAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) getOrderWithInvalidAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "deleteOrder",
+					"item": [
+						{
+							"name": "(+) login Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains a token\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\");\r",
+											"    pm.environment.set(\"auth_token\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Token is a non-empty string\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+											"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password is not present in the response\", function () {\r",
+											"    const res = pm.response.json();\r",
+											"    pm.expect(res).to.not.have.property(\"password\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(+) deleteOrder",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 204 (No Content)\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"// 2. Ha sikeres volt a törlés, küldjünk egy GET kérést ugyanarra az ID-ra\r",
+											"pm.test(\"Trigger GET request to verify order deletion\", function () {\r",
+											"    if (pm.response.code === 200 || pm.response.code === 204) {\r",
+											"        const orderId = pm.request.url.split('/').pop();\r",
+											"\r",
+											"        pm.sendRequest({\r",
+											"            url: `${pm.environment.get(\"baseUrl\")}/orders/${orderId}`,\r",
+											"            method: 'GET',\r",
+											"            header: {\r",
+											"                'Authorization': `Bearer ${pm.environment.get(\"token\")}`\r",
+											"                // NEM kell Content-Type GET-hez\r",
+											"            }\r",
+											"        }, function (err, res) {\r",
+											"            pm.test(\"Order should no longer exist\", function () {\r",
+											"                pm.expect(res.code).to.equal(404);\r",
+											"            });\r",
+											"        });\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/{{orderId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteAlreadyDeletedOrder",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/{{orderId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteOrderWithInvalidOrderID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/kiscica",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"kiscica"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteOrderWithWrongFormatOrderID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/@&#  #",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"@&"
+									],
+									"hash": "  #"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteOrderWithMissingOrderID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{auth_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteOrderWithoutAuhentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "(-) deleteOrderWithInvalidAuhentication Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// 1-. Státuszkód ellenőrzés\r",
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "incorrectpassword",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/orders/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "E2E",
+			"item": [
+				{
+					"name": "(+) createNewUser Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Lekérjük a számlálót, ha nincs még beállítva, akkor 3-ról indítjuk\r",
+									"let counter = pm.environment.get(\"user_counter\");\r",
+									"\r",
+									"if (!counter) {\r",
+									"    counter = 3;\r",
+									"} else {\r",
+									"    counter = parseInt(counter) + 1;\r",
+									"}\r",
+									"\r",
+									"// Beállítjuk a dinamikus felhasználónevet és emailt\r",
+									"const username = `user${counter}`;\r",
+									"const email = `${username}@example.com`;\r",
+									"const password = \"securepassword\";\r",
+									"\r",
+									"// Környezeti változók mentése\r",
+									"pm.environment.set(\"user_counter\", counter);\r",
+									"pm.environment.set(\"username\", username);\r",
+									"pm.environment.set(\"email\", email);\r",
+									"pm.environment.set(\"password\", password);\r",
+									"\r",
+									"// Debug üzenetek a konzolra\r",
+									"console.log(\"Counter:\", counter);\r",
+									"console.log(\"Username:\", username);\r",
+									"console.log(\"Email:\", email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response includes correct username and email\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"username\", pm.environment.get(\"username\"));\r",
+									"    pm.expect(jsonData).to.have.property(\"email\", pm.environment.get(\"email\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains user ID\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");\r",
+									"    pm.environment.set(\"last_user_id\", jsonData.id); // Elmentjük további használatra\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(+) login Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains a token\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"token\");\r",
+									"    pm.environment.set(\"auth_token\", jsonData.token); // Elmentjük a token-t, ha szükség van rá a további kérésekhez\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Token is a non-empty string\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.token).to.be.a(\"string\");\r",
+									"    pm.expect(jsonData.token.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Password is not present in the response\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res).to.not.have.property(\"password\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(+) addProductsToCart Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1. Státuszkód ellenőrzése\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"// 2. Válasz üzenetének ellenőrzése\r",
+									"pm.test(\"Response should contain 'message' field with correct value\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.have.property('message');\r",
+									"    pm.expect(responseJson.message).to.equal(\"Product added to cart.\");\r",
+									"});\r",
+									"\r",
+									"// 3. Válasz JSON formátumának ellenőrzése\r",
+									"pm.test(\"Response should be a valid JSON\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"    pm.expect(pm.response.json()).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"// 4. A válaszban lévő termékID és mennyiség validálása\r",
+									"pm.test(\"Response should contain correct productId and quantity\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.productId).to.equal(pm.environment.get(\"productId\"));\r",
+									"    pm.expect(responseJson.quantity).to.equal(pm.environment.get(\"quantity\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3,\r\n    \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/cart/add",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(+) getCart Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1. Státuszkód ellenőrzése\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"// 2. Valid JSON válasz ellenőrzése\r",
+									"pm.test(\"Response should be a valid JSON\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"    pm.expect(pm.response.json()).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"// 3. 'items' és 'total' mezők ellenőrzése\r",
+									"pm.test(\"Response should contain 'items' array and 'total' field\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.have.property('items').that.is.an('array');\r",
+									"    pm.expect(responseJson).to.have.property('total').that.is.a('number');\r",
+									"});\r",
+									"\r",
+									"// 4. Minden item rendelkezzen 'productId' és 'quantity' mezőkkel\r",
+									"pm.test(\"Each item should have 'productId' and 'quantity' properties\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    responseJson.items.forEach(item => {\r",
+									"        pm.expect(item).to.have.property('productId').that.is.a('number');\r",
+									"        pm.expect(item).to.have.property('quantity').that.is.a('number');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// 5. Total mező helyessége\r",
+									"pm.test(\"Total should be a valid number\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.total).to.be.a('number').that.is.greaterThanOrEqual(0);\r",
+									"});\r",
+									"\r",
+									"// 6. Ha az 'items' üres, akkor a 'total' 0 legyen\r",
+									"pm.test(\"If items is empty, total should be 0\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    if (responseJson.items.length === 0) {\r",
+									"        pm.expect(responseJson.total).to.equal(0);\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cart",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(+) createNewOrder Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has orderId and status\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property(\"orderId\");\r",
+									"    pm.expect(jsonData).to.have.property(\"status\");\r",
+									"    pm.expect(jsonData.status).to.eql(\"Processing\");\r",
+									"});\r",
+									"\r",
+									"// JSON response beolvasása\r",
+									"const jsonData = pm.response.json();\r",
+									"const currentOrderId = jsonData.orderId;\r",
+									"\r",
+									"// Előző orderId lekérése E2E változóból\r",
+									"const previousOrderIdRaw = pm.environment.get(\"E2EpreviousOrderId\");\r",
+									"\r",
+									"// Ha volt előző, összehasonlítjuk\r",
+									"if (previousOrderIdRaw !== undefined && previousOrderIdRaw !== null && previousOrderIdRaw !== \"\") {\r",
+									"    const previousOrderId = Number(previousOrderIdRaw);\r",
+									"    pm.test(\"E2E Order ID has increased\", function () {\r",
+									"        pm.expect(currentOrderId).to.be.above(previousOrderId);\r",
+									"    });\r",
+									"} else {\r",
+									"    console.log(\"No E2EpreviousOrderId found – skipping comparison.\");\r",
+									"}\r",
+									"\r",
+									"// Változók mentése E2E prefixel\r",
+									"pm.environment.set(\"E2EorderId\", currentOrderId);\r",
+									"pm.environment.set(\"E2EpreviousOrderId\", currentOrderId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cartItems\": [\r\n        {\r\n            \"productId\": 3,\r\n            \"quantity\": 2\r\n            }\r\n        ],\r\n    \"shippingAddress\": \"123 Main St, Anytown, USA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(+) getOrder Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Státuszkód ellenőrzés\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Valid JSON válasz ellenőrzése\r",
+									"pm.test(\"Response should be a valid JSON\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"    pm.expect(pm.response.json()).to.be.an('object');\r",
+									"}); \r",
+									"\r",
+									"// Ellenőrizzük, hogy megvannak a kulcsmezők\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response has correct structure\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"orderId\");\r",
+									"    pm.expect(jsonData).to.have.property(\"status\");\r",
+									"    pm.expect(jsonData).to.have.property(\"items\");\r",
+									"    pm.expect(jsonData).to.have.property(\"total\");\r",
+									"});\r",
+									"\r",
+									"// Ellenőrizzük, hogy az items tömb nem üres\r",
+									"pm.test(\"Items array is not empty\", function () {\r",
+									"    pm.expect(jsonData.items).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"// További logikai ellenőrzések (opcionális)\r",
+									"pm.test(\"Total is a positive number\", function () {\r",
+									"    pm.expect(jsonData.total).to.be.a(\"number\").and.to.be.above(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/{{E2EorderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"{{E2EorderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteItemFromCart Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Státuszkód helyességének ellenőrzése\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 2. A válaszban a 'message' helyes értékének ellenőrzése\r",
+									"pm.test(\"Response should contain correct message\", function () {\r",
+									"    if(pm.response.status === 200){\r",
+									"        const responseJson = pm.response.json();\r",
+									"        pm.expect(responseJson).to.have.property('message');\r",
+									"        pm.expect(responseJson.message).to.equal(\"Product removed from cart.\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// 3. A válasz JSON formátumának ellenőrzése\r",
+									"pm.test(\"Response should be a valid JSON\", function () {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"    if(pm.response.status === 200){\r",
+									"        pm.expect(pm.response.json()).to.be.an('object');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// 4. A termék valóban eltávolításra került\r",
+									"pm.test(\"Product should be removed from cart\", function () {\r",
+									"    if(pm.response.status === 200){\r",
+									"        pm.sendRequest({\r",
+									"            url: \"{{baseUrl}}/cart\",\r",
+									"            method: 'GET',\r",
+									"            header: {\r",
+									"                'Authorization': `Bearer ${pm.environment.get('auth_token')}`\r",
+									"            }\r",
+									"        }, function (err, res) {\r",
+									"            const cart = res.json();\r",
+									"            const productRemoved = !cart.items.some(item => item.productId === pm.environment.get(\"productIdToRemove\"));\r",
+									"            pm.expect(productRemoved).to.be.true;\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// 5. Többi termék nem törlődött\r",
+									"pm.test(\"Only one product is removed, others remain in the cart\", function () {\r",
+									"    if(pm.response.status === 200){\r",
+									"        pm.sendRequest({\r",
+									"            url: \"{{baseUrl}}/cart\",\r",
+									"            method: 'GET',\r",
+									"            header: {\r",
+									"                'Authorization': `Bearer ${pm.environment.get('auth_token')}`\r",
+									"            }\r",
+									"        }, function (err, res) {\r",
+									"            const cart = res.json();\r",
+									"            const remainingProducts = cart.items.filter(item => item.productId !== pm.environment.get(\"productIdToRemove\"));\r",
+									"            pm.expect(remainingProducts.length).to.be.greaterThan(0);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/cart/remove",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cart",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(+) deleteOrder Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1-. Státuszkód ellenőrzés\r",
+									"pm.test(\"Status code is 204 (No Content)\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"// 2. Ha sikeres volt a törlés, küldjünk egy GET kérést ugyanarra az ID-ra\r",
+									"pm.test(\"Trigger GET request to verify order deletion\", function () {\r",
+									"    if (pm.response.code === 200 || pm.response.code === 204) {\r",
+									"        const orderId = pm.request.url.split('/').pop();\r",
+									"\r",
+									"        pm.sendRequest({\r",
+									"            url: `${pm.environment.get(\"baseUrl\")}/orders/${orderId}`,\r",
+									"            method: 'GET',\r",
+									"            header: {\r",
+									"                'Authorization': `Bearer ${pm.environment.get(\"token\")}`\r",
+									"                // NEM kell Content-Type GET-hez\r",
+									"            }\r",
+									"        }, function (err, res) {\r",
+									"            pm.test(\"Order should no longer exist\", function () {\r",
+									"                pm.expect(res.code).to.equal(404);\r",
+									"            });\r",
+									"        });\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/{{E2EorderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"{{E2EorderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

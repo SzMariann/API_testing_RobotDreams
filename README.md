@@ -1,6 +1,8 @@
 # API_testing_RobotDreams
 **A RobotDreams kurzusának feladata és megoldása**
 
+https://github.com/tcsako/python-api-app
+
 Az 1. feladat célja egy API tesztelési stratégia kidolgozása és megvalósítása egy webshop backend alkalmazásra. A webshop backend funkciói közé tartozik a termékek kezelése, a felhasználói fiókok kezelése, a rendeléskezelés és a kosár funkció. A tesztelési stratégia célja a backend API-ok megbízhatóságának, teljesítményének és alapszintű biztonságának biztosítása.
 
 A 2. feladat célja az előző házi feladatban megadott követelményeknek megfelelően implementált alkalmazás tesztelése.
@@ -31,6 +33,8 @@ Nekem a legsúlyosabb problémák a következőek:
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Assignment and Solution for the RobotDreams Course**
+
+https://github.com/tcsako/python-api-app
 
 Task 1: The goal is to design and implement an API testing strategy for a webshop backend application. The webshop backend functions include product management, user account management, order management, and the shopping cart. The testing strategy aims to ensure the reliability, performance, and basic security of the backend APIs.
 

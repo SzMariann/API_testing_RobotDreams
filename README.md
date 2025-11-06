@@ -17,7 +17,7 @@ A 2. feladat célja az előző házi feladatban megadott követelményeknek megf
 
 **Észrevételek és talált hibák:**
 
-Mivel nincs mögötte DB, valószínűleg nem megoldott, hogy változnia kéne a cart-ban a darabszámoknak POST /cart/add és GET /cart meghívásakor.
+Mivel nincs mögötte DB, valószínűleg nem megoldott, hogy változnia kéne a cart-ban a darabszámoknak POST /cart/add és GET /cart meghívásakor.  
 
 Ha path paramban wrong format ID van megadva, akkor vajon 404-et vagy 405-öt kell-e visszaadnia? így 404-el kiegyeztem (ezt élesben fejlesztőtől megkérdezném).
 
